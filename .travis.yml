@@ -45,11 +45,9 @@ jobs:
       before_install:
       - export JAVA_HOME="C:\Program Files\Java\jdk1.8.0"
       - export PATH=${JAVA_HOME}/bin:${PATH}
-      - ls /bin
-      - ls /cmd
-      - ls /etc
-      - ls /usr
-      - find /
+      - ls -la ${TRAVIS_BUILD_DIR}
+      - ls -la ${TRAVIS_BUILD_DIR}/c
+      - find ${TRAVIS_BUILD_DIR}/c
       - pwd
       - java -version
       - cinst maven -params 'installdir=C:\\maven'
