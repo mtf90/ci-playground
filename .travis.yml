@@ -60,4 +60,4 @@ jobs:
       script: true
   allow_failures:
     - os: windows
-      jdk: oraclejdk10
+      jdk: oraclejdk11
