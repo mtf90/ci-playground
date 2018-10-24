@@ -54,6 +54,20 @@ jobs:
       - find /c -name "*maven*"
       - java -version
       - cinst maven -params 'installdir=C:\\maven'
+    - os: windows
+      jdk: oraclejdk10
+      language: shell
+      before_install:
+      - export JAVA_HOME="/c/Program Files/Java"
+      - export PATH=${JAVA_HOME}/bin:${PATH}
+      - ls -la "/c"
+      - ls -la "/c/ProgramData"
+      - ls -la "/c/Program Files"
+      - ls -la "/c/Program Files/Java"
+      - find /c -name "*mvn*"
+      - find /c -name "*maven*"
+      - java -version
+      - cinst maven -params 'installdir=C:\\maven'
 #    - os: windows
 #      jdk: oraclejdk10
 #      language: shell
