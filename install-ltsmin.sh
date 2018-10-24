@@ -18,8 +18,8 @@ mkdir -p "$HOME/ltsmin-download"
 wget "$LTSMIN_URL" -P "$HOME/ltsmin-download"
 
 # the files to extract
-echo ltsmin-convert${FILE_SUFFIX} > $HOME/ltsmin-download/files
-echo etf2lts-mc${FILE_SUFFIX} >> $HOME/ltsmin-download/files
+echo ${LTSMIN_VERSION}/bin/ltsmin-convert${FILE_SUFFIX} > $HOME/ltsmin-download/files
+echo ${LTSMIN_VERSION}/bin/etf2lts-mc${FILE_SUFFIX} >> $HOME/ltsmin-download/files
 
 # extract the files
-tar -xf "$HOME/ltsmin-download/$LTSMIN_NAME" -C "$HOME/ltsmin" --no-anchored --files-from=$HOME/ltsmin-download/files
+tar -xf "$HOME/ltsmin-download/$LTSMIN_NAME" -C "$HOME/ltsmin" --files-from=$HOME/ltsmin-download/files
