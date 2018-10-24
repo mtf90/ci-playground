@@ -45,10 +45,10 @@ jobs:
       before_install:
       - export JAVA_HOME="C:\Program Files\Java\jdk1.8.0"
       - export PATH=${JAVA_HOME}/bin:${PATH}
-      - ls -la /c
-      - find /c/ProgramData
-      - find "/c/Program Files"
-      - find "/c/Program Files (x86)"
+      - ls -la "/c"
+      - ls -la "/c/ProgramData"
+      - ls -la "/c/Program Files"
+      - ls -la "/c/Program Files (x86)"
       - pwd
       - which cinst
       - java -version
