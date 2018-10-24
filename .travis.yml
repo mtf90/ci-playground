@@ -27,10 +27,14 @@ script:
 jobs:
   fast_finish: true
   include:
+    # First stage
     - os: linux
       jdk: openjdk8
     - os: linux
       jdk: openjdk11
+    - stage: Integration Test
+      jdk: openjdk11
+      env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
     - os: osx
       jdk: openjdk8
     - os: osx
@@ -55,6 +59,6 @@ jobs:
       - cinst maven -params 'installdir=C:\\maven'
       - export M2_HOME="C:\maven"
       - export PATH=${M2_HOME}/bin:${PATH}
-    - stage: 2nd Stage
+    - stage: Deploy
       jdk: openjdk11
-      env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
+      script: true
