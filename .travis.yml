@@ -9,6 +9,7 @@ install:
 script: mvn install -B
 
 jobs:
+  fast_finish: true
   include:
     - os: linux
       jdk: openjdk8
