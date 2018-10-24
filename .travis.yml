@@ -47,8 +47,6 @@ jobs:
         - export JAVA_HOME="C:\jdk8"
         - export PATH=${JAVA_HOME}/bin:${PATH}
         - cinst maven -params 'installdir=C:\\maven'
-        - export M2_HOME="C:\maven"
-        - export PATH=${M2_HOME}/bin:${PATH}
     - os: windows
       jdk: openjdk11
       language: shell
@@ -57,8 +55,6 @@ jobs:
       - export JAVA_HOME="C:\jdk11"
       - export PATH=${JAVA_HOME}/bin:${PATH}
       - cinst maven -params 'installdir=C:\\maven'
-      - export M2_HOME="C:\maven"
-      - export PATH=${M2_HOME}/bin:${PATH}
     - stage: Deploy
       jdk: openjdk11
       script: true
