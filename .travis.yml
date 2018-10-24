@@ -1,7 +1,6 @@
 language: java
 
 dist: trusty
-sudo: true
 
 env:
   global:
@@ -28,79 +27,37 @@ script:
 jobs:
   fast_finish: true
   include:
-#    - jdk: openjdk8
-#    - jdk: openjdk11
-#    - stage: Integration Test
-#      jdk: openjdk11
-#      env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
-#    - os: osx
-#      jdk: openjdk8
-#      # Force old xcode image so JDK8 isn't overridden from newer xcode version
-#      osx_image: xcode9.3
-#    - os: osx
-#      jdk: openjdk11
+    - stage: 1st Stage
+    - jdk: openjdk8
+    - jdk: openjdk11
+    - stage: 2nd Stage
+      jdk: openjdk11
+      env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
+    - os: osx
+      jdk: openjdk8
+      # Force old xcode image so JDK8 isn't overridden from newer xcode version
+      osx_image: xcode9.3
+    - os: osx
+      jdk: openjdk11
     - os: windows
       jdk: oraclejdk8
       language: shell
       before_install:
-      - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
-      - export PATH=${JAVA_HOME}/bin:${PATH}
-      - ls -la "/c"
-      - ls -la "/c/ProgramData"
-      - ls -la "/c/Program Files"
-      - ls -la "/c/Program Files/Java"
-      - ls -la "/c/Program Files/Java/jdk1.8.0_192"
-      - find /c -name "*mvn*"
-      - find /c -name "*maven*"
-      - find / -name "*mvn*"
-      - find / -name "*maven*"
-      - java -version
-      - cinst maven
+        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
+        - export PATH=${JAVA_HOME}/bin:${PATH}
+        - cinst maven -params 'installdir=C:\\maven'
     - os: windows
-      jdk: oraclejdk10
+      jdk: oraclejdk11
       language: shell
       before_install:
-      - ls -la "/c"
-      - ls -la "/c/ProgramData"
-      - ls -la "/c/Program Files"
-      - ls -la "/c/Program Files/Java"
-      - choco install jdk11 -n -r --nocolor --no-progress --params 'installdir=C:\\jdk11'
+      - cinst jdk11 -params 'installdir=C:\\jdk11'
       - export JAVA_HOME="C:\jdk11"
       - export PATH=${JAVA_HOME}/bin:${PATH}
-      - java -version
-      - cinst maven
-#    - os: windows
-#      jdk: oraclejdk10
-#      language: shell
-#      before_install:
-#      - export JAVA_HOME="C:\Program Files\Java\jdk10"
-#      - export PATH=${JAVA_HOME}/bin:${PATH}
-#      - ls /bin
-#      - ls /cmd
-#      - ls /etc
-#      - ls /usr
-#      - find /
-#      - pwd
-#      script:
-#        - java -version
-#        - produce-error-by-calling-a-program-that-does-not-exist
-#    - os: windows
-#      jdk: oraclejdk11
-#      language: shell
-#      before_install:
-#      - ls /bin
-#      - ls /cmd
-#      - ls /etc
-#      - ls /usr
-#      - find /
-#      - pwd
-#      - cinst jdk11 -params 'installdir=C:\\jdk11'
-#      - export JAVA_HOME="C:\jdk11"
-#      - export PATH=${JAVA_HOME}/bin:${PATH}
-#      - cinst maven -params 'installdir=C:\\maven'
-#    - stage: Deploy
-#      jdk: openjdk11
-#      script: true
-#  allow_failures:
-#    - os: windows
-#      jdk: oraclejdk10
+      - cinst maven -params 'installdir=C:\\maven'
+      script: produce-error-by-calling-a-program-that-does-not-exist
+    - stage: 3rd Stage
+      jdk: openjdk11
+      script: true
+  allow_failures:
+    - os: windows
+      jdk: oraclejdk10
