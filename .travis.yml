@@ -44,16 +44,12 @@ jobs:
       language: shell
       before_install:
         - cinst jdk8 -params 'installdir=C:\\jdk8'
-        - export JAVA_HOME="C:\jdk8"
-        - export PATH=${JAVA_HOME}/bin:${PATH}
         - cinst maven -params 'installdir=C:\\maven'
     - os: windows
       jdk: oraclejdk11
       language: shell
       before_install:
       - cinst jdk11 -params 'installdir=C:\\jdk11'
-      - export JAVA_HOME="C:\jdk11"
-      - export PATH=${JAVA_HOME}/bin:${PATH}
       - cinst maven -params 'installdir=C:\\maven'
     - stage: Deploy
       jdk: openjdk11
