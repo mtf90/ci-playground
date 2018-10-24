@@ -21,6 +21,7 @@ install:
 
 script:
   - ltsmin-convert --version || true
+  - mvn --version
   - mvn install -B
 
 jobs:
