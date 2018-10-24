@@ -1,6 +1,7 @@
 language: java
 
 dist: trusty
+sudo: true
 
 env:
   global:
@@ -44,11 +45,14 @@ jobs:
       before_install:
       - export JAVA_HOME="C:\Program Files\Java\jdk1.8.0"
       - export PATH=${JAVA_HOME}/bin:${PATH}
+      - ls ${TRAVIS_BUILD_DIR}
+      - ls ${TRAVIS_BUILD_DIR}/..
       - ls /
       - ls 'C:'
       - ls 'C:\Program Files'
       - find /
       - find 'C:'
+      - echo ${TRAVIS_BUILD_DIR}/..
       - java -version
       - cinst maven -params 'installdir=C:\\maven'
     - os: windows
@@ -57,11 +61,14 @@ jobs:
       before_install:
       - export JAVA_HOME="C:\Program Files\Java\jdk10"
       - export PATH=${JAVA_HOME}/bin:${PATH}
+      - ls ${TRAVIS_BUILD_DIR}
+      - ls ${TRAVIS_BUILD_DIR}/..
       - ls /
       - ls 'C:'
       - ls 'C:\Program Files'
       - find /
       - find 'C:'
+      - echo ${TRAVIS_BUILD_DIR}/..
       script:
         - java -version
         - produce-error-by-calling-a-program-that-does-not-exist
@@ -69,11 +76,14 @@ jobs:
       jdk: oraclejdk11
       language: shell
       before_install:
+      - ls ${TRAVIS_BUILD_DIR}
+      - ls ${TRAVIS_BUILD_DIR}/..
       - ls /
       - ls 'C:'
       - ls 'C:\Program Files'
       - find /
       - find 'C:'
+      - echo ${TRAVIS_BUILD_DIR}/..
       - cinst jdk11 -params 'installdir=C:\\jdk11'
       - export JAVA_HOME="C:\jdk11"
       - export PATH=${JAVA_HOME}/bin:${PATH}
