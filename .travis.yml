@@ -52,22 +52,23 @@ jobs:
       - ls -la "/c/Program Files/Java/jdk1.8.0_192"
       - find /c -name "*mvn*"
       - find /c -name "*maven*"
+      - find / -name "*mvn*"
+      - find / -name "*maven*"
       - java -version
-      - cinst maven -params 'installdir=C:\\maven'
+      - cinst maven
     - os: windows
       jdk: oraclejdk10
       language: shell
       before_install:
-      - export JAVA_HOME="/c/Program Files/Java"
-      - export PATH=${JAVA_HOME}/bin:${PATH}
       - ls -la "/c"
       - ls -la "/c/ProgramData"
       - ls -la "/c/Program Files"
       - ls -la "/c/Program Files/Java"
-      - find /c -name "*mvn*"
-      - find /c -name "*maven*"
+      - choco install jdk11 -n -r --nocolor --no-progress --params 'installdir=C:\\jdk11'
+      - export JAVA_HOME="C:\jdk11"
+      - export PATH=${JAVA_HOME}/bin:${PATH}
       - java -version
-      - cinst maven -params 'installdir=C:\\maven'
+      - cinst maven
 #    - os: windows
 #      jdk: oraclejdk10
 #      language: shell
