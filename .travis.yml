@@ -33,9 +33,11 @@ jobs:
       jdk: openjdk11
       env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
     - os: osx
-      osx_image: xcode9.3 # JDK 1.8.0_112-b16
+      jdk: openjdk8
+      # Force old xcode image so JDK8 isn't overridden from newer xcode version
+      osx_image: xcode9.3
     - os: osx
-      osx_image: xcode10 # JDK 10.0.2+13
+      jdk: openjdk11
     - os: windows
       jdk: oraclejdk8
       language: shell
