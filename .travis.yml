@@ -14,11 +14,14 @@ cache:
 install:
   # install LTSmin
   - ${TRAVIS_BUILD_DIR}/install-ltsmin.sh
+  - PATH="$PATH:$HOME/ltsmin/$LTSMIN_VERSION/bin"
   # override any "sane" defaults of Travis VMs
   - mkdir -p ${HOME}/.m2
   - cp ${TRAVIS_BUILD_DIR}/.travis/settings.xml ${HOME}/.m2/settings.xml
 
-script: mvn install -B
+script:
+  - ltsmin-convert --version
+  - mvn install -B
 
 jobs:
   fast_finish: true
