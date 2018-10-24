@@ -6,6 +6,11 @@ env:
   global:
   - LTSMIN_VERSION="v3.1.0"
 
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/ltsmin
+
 install:
   # override any "sane" defaults of Travis VMs
   - mkdir -p ${HOME}/.m2
