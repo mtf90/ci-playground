@@ -48,9 +48,8 @@ jobs:
       - ls -la "/c"
       - ls -la "/c/ProgramData"
       - ls -la "/c/Program Files"
-      - ls -la "/c/Program Files (x86)"
-      - pwd
-      - which cinst
+      - ls -la "/c/Program Files/Java"
+      - find /c -name mvn
       - java -version
       - cinst maven -params 'installdir=C:\\maven'
 #    - os: windows
