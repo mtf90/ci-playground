@@ -40,7 +40,7 @@ jobs:
     - os: osx
       jdk: openjdk11
     - os: windows
-      jdk: openjdk8
+      jdk: oraclejdk8
       language: shell
       before_install:
         - cinst jdk8 -params 'installdir=C:\\jdk8'
@@ -48,7 +48,7 @@ jobs:
         - export PATH=${JAVA_HOME}/bin:${PATH}
         - cinst maven -params 'installdir=C:\\maven'
     - os: windows
-      jdk: openjdk11
+      jdk: oraclejdk11
       language: shell
       before_install:
       - cinst jdk11 -params 'installdir=C:\\jdk11'
