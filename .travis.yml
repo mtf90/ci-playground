@@ -45,10 +45,10 @@ jobs:
       before_install:
       - export JAVA_HOME="C:\Program Files\Java\jdk1.8.0"
       - export PATH=${JAVA_HOME}/bin:${PATH}
-      - ls -la ${TRAVIS_BUILD_DIR}
-      - find ${TRAVIS_BUILD_DIR}/c
-      - ls /
-      - ls /c
+      - ls -la /c
+      - find /c/ProgramData
+      - find "/c/Program Files"
+      - find "/c/Program Files (x86)"
       - pwd
       - which cinst
       - java -version
