@@ -2,6 +2,10 @@ language: java
 
 dist: trusty
 
+env:
+  global:
+  - LTSMIN_VERSION="v3.1.0"
+
 install:
   # override any "sane" defaults of Travis VMs
   - mkdir -p ${HOME}/.m2
