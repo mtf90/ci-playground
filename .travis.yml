@@ -27,11 +27,8 @@ script:
 jobs:
   fast_finish: true
   include:
-    # First stage
-    - os: linux
-      jdk: openjdk8
-    - os: linux
-      jdk: openjdk11
+    - jdk: openjdk8
+    - jdk: openjdk11
     - stage: Integration Test
       jdk: openjdk11
       env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
