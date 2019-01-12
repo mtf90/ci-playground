@@ -35,22 +35,24 @@ jobs:
       jdk: openjdk11
       env: MAVEN_OPTS="$MAVEN_OPTS -Dmaven.compiler.source=11 -Dmaven.compiler.target=11"
     - os: osx
-      #jdk: openjdk8
-      # Force old xcode image so JDK8 isn't overridden from newer xcode version
+      # Don't explicitly set the jdk version (because the install script doesn't like some (EOL'd) versions) but use the
+      # default installation of the osx_image (xcode9.3 -> oraclejdk8)
       osx_image: xcode9.3
     - os: osx
-      jdk: openjdk11
+      # Don't explicitly set the jdk version (because the install script doesn't like some (EOL'd) versions) but use the
+      # default installation of the osx_image (xcode10.1 -> oraclejdk11)
+      osx_image: xcode10.1
     - os: windows
       jdk: oraclejdk8
-      language: java
-#      before_install:
-#        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
-#        - export PATH=${JAVA_HOME}/bin:${PATH}
-#        - cinst maven -params 'installdir=C:\\maven'
+      language: shell
+      before_install:
+        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
+        - export PATH=${JAVA_HOME}/bin:${PATH}
+        - cinst maven -params 'installdir=C:\\maven'
     - os: windows
       jdk: oraclejdk11
       language: shell
-      filter_secrets: false
+      filter_secrets: false # this should make choco run, but exposes our secrets!
       before_install:
       - cinst jdk11 -params 'installdir=C:\\jdk11'
       - export JAVA_HOME="C:\jdk11"
