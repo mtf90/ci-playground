@@ -22,6 +22,7 @@ install:
 script:
   - ltsmin-convert --version || true
   - mvn --version
+  - echo ${SECRET}
   - mvn install -B
 
 jobs:
@@ -41,11 +42,20 @@ jobs:
       jdk: openjdk11
     - os: windows
       jdk: oraclejdk8
+      language: java
+#      before_install:
+#        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
+#        - export PATH=${JAVA_HOME}/bin:${PATH}
+#        - cinst maven -params 'installdir=C:\\maven'
+    - os: windows
+      jdk: oraclejdk11
       language: shell
+      filter_secrets: false
       before_install:
-        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
-        - export PATH=${JAVA_HOME}/bin:${PATH}
-        - cinst maven -params 'installdir=C:\\maven'
+      - cinst jdk11 -params 'installdir=C:\\jdk11'
+      - export JAVA_HOME="C:\jdk11"
+      - export PATH=${JAVA_HOME}/bin:${PATH}
+      - cinst maven -params 'installdir=C:\\maven'
     - os: windows
       jdk: oraclejdk11
       language: shell
