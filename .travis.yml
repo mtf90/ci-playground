@@ -48,7 +48,7 @@ jobs:
       before_install:
         - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
         - export PATH=${JAVA_HOME}/bin:${PATH}
-        - cinst maven -params 'installdir=C:\\maven'
+        # - cinst maven -params 'installdir=C:\\maven'
     - os: windows
       jdk: oraclejdk11
       language: shell
