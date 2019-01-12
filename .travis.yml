@@ -47,7 +47,7 @@ jobs:
       language: shell
       filter_secrets: false # this should make choco run, but exposes our secrets!
       before_install:
-        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_192"
+        - export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191"
         - export PATH=${JAVA_HOME}/bin:${PATH}
         - cinst maven -params 'installdir=C:\\maven'
     - os: windows
