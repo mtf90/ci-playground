@@ -16,9 +16,10 @@ jobs:
         env:
           LTSMIN_VERSION: v3.1.0
           LTSMIN_OS: linux
+        shell: bash
         run: |
           $GITHUB_WORKSPACE/.github/install-ltsmin.sh
-          echo "~/ltsmin/$LTSMIN_VERSION/bin" >> $GITHUB_PATH
+          echo "~/ltsmin/${{ env.LTSMIN_VERSION }}/bin" >> $GITHUB_PATH
       - name: Install GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
@@ -69,9 +70,10 @@ jobs:
         env:
           LTSMIN_VERSION: v3.1.0
           LTSMIN_OS: linux
+        shell: bash
         run: |
           $GITHUB_WORKSPACE/.github/install-ltsmin.sh
-          echo "~/ltsmin/$LTSMIN_VERSION/bin" >> $GITHUB_PATH
+          echo "~/ltsmin/${{ env.LTSMIN_VERSION }}/bin" >> $GITHUB_PATH
       - name: Install GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
@@ -106,4 +108,4 @@ jobs:
           path: ~/.m2
           key: cache-deploy-${{ hashFiles('**/pom.xml') }}
       - name: Run Maven
-        run: mvn -B package
+        run: mvn -B -s $GITHUB_WORKSPACE/.github/settings.xml package
