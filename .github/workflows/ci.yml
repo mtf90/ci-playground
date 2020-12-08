@@ -35,7 +35,7 @@ jobs:
         run: mvn -B package
 
   integration-tests:
-    name: "Integration Tests (JDK: ${{ matrix.jdk }}, OS: ${{ runner.os }})"
+    name: "Integration Tests (JDK: ${{ matrix.jdk }}, OS: $RUNNER_OS)"
     needs: [ code-analysis ]
     strategy:
       matrix:
