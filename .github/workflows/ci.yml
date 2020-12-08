@@ -4,32 +4,39 @@ on: [ push ]
 
 jobs:
   code-analysis:
+    name: "Code Analysis (JDK: ${{ matrix.jdk }})"
     strategy:
       matrix:
         jdk: [ 8, 11 ]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Install LTSmin
         env:
           LTSMIN_VERSION: v3.1.0
           LTSMIN_OS: $${ runner.os }}
         run: $GITHUB_WORKSPACE/.github/install-ltsmin.sh
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK 1.8
+      - name: Install GraphViz
+        run: sudo apt-get install graphviz
+      - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.jdk }}
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: ~/.m2
+          path: |
+          $HOME/.m2
+          $HOME/ltsmin
+          !$HOME/.m2/repository/com/github/mtf90
           key: m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run Maven
         run: mvn -B package
 
   integration-tests:
+    name: "Integration Tests (JDK: ${{ matrix.jdk }}, OS: ${{ matrix.os }})"
     needs: [ code-analysis ]
     strategy:
       matrix:
@@ -46,13 +53,17 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: ~/.m2
+          path: |
+          $HOME/.m2
+          $HOME/ltsmin
+          !$HOME/.m2/repository/com/github/mtf90
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run Maven
         run: mvn -B package
 
   deploy:
+    name: "Deploy"
     needs: [ integration-tests ]
     runs-on: ubuntu-latest
     steps:
@@ -61,11 +72,37 @@ jobs:
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.jdk }}
+          java-version: 8
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: ~/.m2
+          path: |
+          $HOME/.m2
+          $HOME/ltsmin
+          !$HOME/.m2/repository/com/github/mtf90
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run Maven
+        run: mvn -B package
+
+  coverage:
+    name: "Coverage"
+    needs: [ integration-tests ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: |
+          $HOME/.m2
+          $HOME/ltsmin
+          !$HOME/.m2/repository/com/github/mtf90
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run Maven
