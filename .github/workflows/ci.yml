@@ -31,8 +31,7 @@ jobs:
           path: |
             ~/.m2
             ~/ltsmin
-            !~/.m2/repository/com/github/mtf90
-          key: m2-${{ hashFiles('**/pom.xml') }}
+          key: cache-code-analysis-${{ hashFiles('**/pom.xml') }}
       - name: Run Maven
         run: mvn -B package
 
@@ -54,11 +53,8 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: |
-            ~/.m2
-            ~/ltsmin
-            !~/.m2/repository/com/github/mtf90
-          key: m2-${{ hashFiles('**/pom.xml') }}
+          path: ~/.m2
+          key: cache-integration-tests-${{ hashFiles('**/pom.xml') }}
       - name: Run Maven
         run: mvn '-Dmaven.compiler.source=${{ matrix.jdk }}' '-Dmaven.compiler.target=${{ matrix.jdk }}' -B package
 
@@ -75,7 +71,7 @@ jobs:
           LTSMIN_OS: linux
         run: |
           $GITHUB_WORKSPACE/.github/install-ltsmin.sh
-          echo "${{ env.HOME }}/ltsmin" >> $GITHUB_PATH
+          echo "~/ltsmin/$LTSMIN_VERSION/bin" >> $GITHUB_PATH
       - name: Install GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
@@ -88,8 +84,7 @@ jobs:
           path: |
             ~/.m2
             ~/ltsmin
-            !~/.m2/repository/com/github/mtf90
-          key: m2-${{ hashFiles('**/pom.xml') }}
+          key: cache-coverage-${{ hashFiles('**/pom.xml') }}
       - name: Run Maven
         run: mvn -B package
 
@@ -108,10 +103,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: |
-            ~/.m2
-            ~/ltsmin
-            !~/.m2/repository/com/github/mtf90
-          key: m2-${{ hashFiles('**/pom.xml') }}
+          path: ~/.m2
+          key: cache-deploy-${{ hashFiles('**/pom.xml') }}
       - name: Run Maven
         run: mvn -B package
