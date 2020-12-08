@@ -1,6 +1,9 @@
 name: Stage 1
 
-on: [ push ]
+on:
+  push:
+    branches-ignore:
+      - '**'
 
 jobs:
   build:

@@ -1,0 +1,72 @@
+name: Continuous Integration
+
+on: [ push ]
+
+jobs:
+  code-analysis:
+    strategy:
+      matrix:
+        jdk: [ 8, 11 ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install LTSmin
+        env:
+          LTSMIN_VERSION: v3.1.0
+          LTSMIN_OS: $${ runner.os }}
+        run: $GITHUB_WORKSPACE/.github/install-ltsmin.sh
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.jdk }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run Maven
+        run: mvn -B package
+
+  integration-tests:
+    needs: [ code-analysis ]
+    strategy:
+      matrix:
+        jdk: [ 8, 11 ]
+        os: [ ubuntu-latest, windows-latest, macOS-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.jdk }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run Maven
+        run: mvn -B package
+
+  deploy:
+    needs: [ integration-tests ]
+      runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.jdk }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run Maven
+        run: mvn -B package
