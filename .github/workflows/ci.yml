@@ -60,9 +60,7 @@ jobs:
             !~/.m2/repository/com/github/mtf90
           key: m2-${{ hashFiles('**/pom.xml') }}
       - name: Run Maven
-        run: |
-          echo "-Dmaven.compiler.source=${{ matrix.jdk }} -Dmaven.compiler.target=${{ matrix.jdk }}" >> $MAVEN_OPTS
-          mvn -B package
+        run: mvn -Dmaven.compiler.source=${{ matrix.jdk }} -Dmaven.compiler.target=${{ matrix.jdk }} -B package
 
   coverage:
     name: "Coverage"
@@ -75,7 +73,9 @@ jobs:
         env:
           LTSMIN_VERSION: v3.1.0
           LTSMIN_OS: linux
-        run: $GITHUB_WORKSPACE/.github/install-ltsmin.sh
+        run: |
+          $GITHUB_WORKSPACE/.github/install-ltsmin.sh
+          echo "${{ env.HOME }}/ltsmin" >> $GITHUB_PATH
       - name: Install GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
