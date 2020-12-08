@@ -1,19 +1,15 @@
-name: Stage 1
+name: Stage 2
 
 on: [ push ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         jdk: [ 8, 11 ]
+        os: [ ubuntu-lastest, windows-latest, macOS-latest ]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Install LTSmin
-        env:
-          LTSMIN_VERSION: v3.1.0
-          LTSMIN_OS: $${ runner.os }}
-        run: $HOME/.github/install-ltsmin.sh
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -23,9 +19,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: |
-            $HOME/.m2
-            $HOME/.ltsmin
+          path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run Maven

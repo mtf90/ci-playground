@@ -1,9 +1,9 @@
 #!/bin/bash
 
-LTSMIN_NAME="ltsmin-${LTSMIN_VERSION}-$TRAVIS_OS_NAME.tgz"
+LTSMIN_NAME="ltsmin-${LTSMIN_VERSION}-$LTSMIN_OS.tgz"
 LTSMIN_URL="https://github.com/Meijuh/ltsmin/releases/download/$LTSMIN_VERSION/$LTSMIN_NAME"
 
-if [ $TRAVIS_OS_NAME = "windows" ]; then
+if [ "$LTSMIN_OS" = "windows" ]; then
    FILE_SUFFIX=".exe"
 fi
 
@@ -18,8 +18,8 @@ mkdir -p "$HOME/ltsmin-download"
 wget "$LTSMIN_URL" -P "$HOME/ltsmin-download"
 
 # the files to extract
-echo ${LTSMIN_VERSION}/bin/ltsmin-convert${FILE_SUFFIX} > $HOME/ltsmin-download/files
-echo ${LTSMIN_VERSION}/bin/etf2lts-mc${FILE_SUFFIX} >> $HOME/ltsmin-download/files
+echo "${LTSMIN_VERSION}/bin/ltsmin-convert${FILE_SUFFIX}" > "$HOME/ltsmin-download/files"
+echo "${LTSMIN_VERSION}/bin/etf2lts-mc${FILE_SUFFIX}" >> "$HOME/ltsmin-download/files"
 
 # extract the files
-tar -xf "$HOME/ltsmin-download/$LTSMIN_NAME" -C "$HOME/ltsmin" --files-from=$HOME/ltsmin-download/files
+tar -xf "$HOME/ltsmin-download/$LTSMIN_NAME" -C "$HOME/ltsmin" --files-from="$HOME/ltsmin-download/files"
