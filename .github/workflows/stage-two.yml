@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         jdk: [ 8, 11 ]
-        os: [ ubuntu-lastest, windows-latest, macOS-latest ]
+        os: [ ubuntu-latest, windows-latest, macOS-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
