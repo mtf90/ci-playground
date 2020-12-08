@@ -13,7 +13,7 @@ jobs:
         env:
           LTSMIN_VERSION: v3.1.0
           LTSMIN_OS: $${ runner.os }}
-        run: $HOME/.github/install-ltsmin.sh
+        run: $GITHUB_WORKSPACE/.github/install-ltsmin.sh
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up JDK 1.8
