@@ -23,6 +23,7 @@ jobs:
       - name: Check LTSmin
         shell: bash
         run: ltsmin-convert --version
+        continue-on-error: true # binary returns 255 on success
       - name: Install GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
@@ -74,16 +75,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install LTSmin
-        env:
-          LTSMIN_VERSION: v3.1.0
-          LTSMIN_OS: linux
-        shell: bash
-        run: |
-          $GITHUB_WORKSPACE/.github/install-ltsmin.sh
-          echo "~/ltsmin/${{ env.LTSMIN_VERSION }}/bin" >> $GITHUB_PATH
-      - name: Install GraphViz
-        run: sudo apt-get install graphviz
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
