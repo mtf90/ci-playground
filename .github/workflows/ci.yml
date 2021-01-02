@@ -108,7 +108,7 @@ jobs:
           CI_PULL_REQUEST: ${{ steps.refs.outputs.pr_number }}
         run: |
           mvn -B package
-          mvn -B coveralls:report --no-transfer-progress -DrepoToken=${{ secrets.COVERALLS_TOKEN }}
+          mvn -B coveralls:report --no-transfer-progress -DrepoToken=${{ secrets.COVERALLS_REPO_TOKEN }}
 
 #  deploy:
 #    name: "Deploy"
