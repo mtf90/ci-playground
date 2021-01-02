@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.mtf90</groupId>
-    <artifactId>travis-playground</artifactId>
+    <artifactId>ci-playground</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <name>travis-playground</name>

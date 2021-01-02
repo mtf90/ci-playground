@@ -101,14 +101,14 @@ jobs:
           echo "::set-output name=pr_number::$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")"
       - name: Run Coverage
         env:
-          CI_NAME: Github
+          CI_NAME: Github Actions
           CI_BUILD_NUMBER: ${{ github.run_id }}
           CI_BUILD_URL: https://github.com/${{ github.repository }}/commit/${{ github.event.after }}/checks
           CI_BRANCH: ${{ steps.refs.outputs.branch_name }}
           CI_PULL_REQUEST: ${{ steps.refs.outputs.pr_number }}
         run: |
           mvn -B package
-          mvn -B coveralls:report --no-transfer-progress -DrepoToken=${{ secrets.COVERALLS_REPO_TOKEN }}
+          mvn -B coveralls:report -DrepoToken=${{ secrets.COVERALLS_TOKEN }}
 
 #  deploy:
 #    name: "Deploy"
