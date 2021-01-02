@@ -42,6 +42,16 @@
                         <enableAssertions>true</enableAssertions>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.eluder.coveralls</groupId>
+                    <artifactId>coveralls-maven-plugin</artifactId>
+                    <version>${coveralls-plugin.version}</version>
+                    <configuration>
+                        <jacocoReports>
+                            <jacocoReport>${basedir}/target/site/jacoco/jacoco.xml</jacocoReport>
+                        </jacocoReports>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
