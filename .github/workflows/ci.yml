@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on: [ push, pull_request ]
 
@@ -13,14 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/ltsmin
-          ~/.m2
-          !~/.m2/repository/com/github/mtf90
-        key: cache-code-analysis-${{ hashFiles('**/pom.xml') }}
-        restore-keys: cache-code-analysis-
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/ltsmin
+            ~/.m2
+            !~/.m2/repository/com/github/mtf90
+          key: cache-code-analysis-${{ hashFiles('**/pom.xml') }}
+          restore-keys: cache-code-analysis-
       - name: List Cache
         shell: bash
         run: |
