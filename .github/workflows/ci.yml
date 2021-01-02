@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on: [ push, pull_request ]
 
@@ -20,6 +20,9 @@ jobs:
         run: |
           $GITHUB_WORKSPACE/.github/install-ltsmin.sh
           echo "~/ltsmin/${{ env.LTSMIN_VERSION }}/bin" >> $GITHUB_PATH
+      - name: Check LTSmin
+        shell: bash
+        run: ltsmin-convert --version
       - name: Install GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
@@ -30,34 +33,39 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.m2
             ~/ltsmin
+            ~/.m2
+            !~/.m2/repository/com/github/mtf90
           key: cache-code-analysis-${{ hashFiles('**/pom.xml') }}
+          restore-keys: cache-code-analysis-
+      - name: List Cache
+        shell: bash
+        run: find ~/.m2
       - name: Run Maven
-        run: mvn -B package
+        run: mvn -B install
 
-  integration-tests:
-    name: "Integration Tests (JDK: ${{ matrix.jdk }}, OS: ${{ matrix.os }})"
-    needs: [ code-analysis ]
-    strategy:
-      matrix:
-        jdk: [ 1.8, 11 ]
-        os: [ ubuntu-latest, windows-latest, macOS-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.jdk }}
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: cache-integration-tests-${{ hashFiles('**/pom.xml') }}
-      - name: Run Maven
-        run: mvn '-Dmaven.compiler.source=${{ matrix.jdk }}' '-Dmaven.compiler.target=${{ matrix.jdk }}' -B package
+#  integration-tests:
+#    name: "Integration Tests (JDK: ${{ matrix.jdk }}, OS: ${{ matrix.os }})"
+#    needs: [ code-analysis ]
+#    strategy:
+#      matrix:
+#        jdk: [ 1.8, 11 ]
+#        os: [ ubuntu-latest, windows-latest, macOS-latest ]
+#    runs-on: ${{ matrix.os }}
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: ${{ matrix.jdk }}
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: cache-integration-tests-${{ hashFiles('**/pom.xml') }}
+#      - name: Run Maven
+#        run: mvn '-Dmaven.compiler.source=${{ matrix.jdk }}' '-Dmaven.compiler.target=${{ matrix.jdk }}' -B package
 
   coverage:
     name: "Coverage"
@@ -87,25 +95,35 @@ jobs:
             ~/.m2
             ~/ltsmin
           key: cache-coverage-${{ hashFiles('**/pom.xml') }}
+          restore-keys: cache-coverage-
+      - name: List Cache
+        shell: bash
+        run: find ~/.m2
       - name: Run Maven
         run: mvn -B package
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: $GITHUB_WORKSPACE/target/site/jacoco/jacoco.xml
 
-  deploy:
-    name: "Deploy"
-    if: github.event_name != 'pull_request'
-    needs: [ integration-tests ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: cache-deploy-${{ hashFiles('**/pom.xml') }}
-      - name: Run Maven
-        run: mvn -B -s $GITHUB_WORKSPACE/.github/settings.xml package
+#  deploy:
+#    name: "Deploy"
+#    if: github.event_name != 'pull_request'
+#    needs: [ integration-tests ]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 1.8
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: cache-deploy-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: cache-deploy-
+#      - name: Run Maven
+#        run: mvn -B -s $GITHUB_WORKSPACE/.github/settings.xml package
