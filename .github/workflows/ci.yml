@@ -12,7 +12,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install LTSmin
+      - name: Set up cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/ltsmin
+          ~/.m2
+          !~/.m2/repository/com/github/mtf90
+        key: cache-code-analysis-${{ hashFiles('**/pom.xml') }}
+        restore-keys: cache-code-analysis-
+      - name: List Cache
+        shell: bash
+        run: |
+          find ~/.m2
+          find ~/ltsmin
+      - name: Set up LTSmin
         env:
           LTSMIN_VERSION: v3.1.0
           LTSMIN_OS: linux
@@ -24,24 +38,12 @@ jobs:
         shell: bash
         run: ltsmin-convert --version
         continue-on-error: true # binary returns 255 on success
-      - name: Install GraphViz
+      - name: Set up GraphViz
         run: sudo apt-get install graphviz
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.jdk }}
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/ltsmin
-            ~/.m2
-            !~/.m2/repository/com/github/mtf90
-          key: cache-code-analysis-${{ hashFiles('**/pom.xml') }}
-          restore-keys: cache-code-analysis-
-      - name: List Cache
-        shell: bash
-        run: find ~/.m2
       - name: Run Maven
         run: mvn -B install
 
