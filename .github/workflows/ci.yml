@@ -109,7 +109,7 @@ jobs:
           CI_PULL_REQUEST: ${{ steps.refs.outputs.pr_number }}
         run: |
           mvn -B package
-          mvn -B coveralls:report
+          mvn -B -X coveralls:report
 
 #  deploy:
 #    name: "Deploy"
