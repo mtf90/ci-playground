@@ -102,7 +102,8 @@ jobs:
       - name: Run Coverage
         env:
           CI_NAME: Github Actions
-          CI_BUILD_NUMBER: ${{ github.run_id }}
+          CI_BUILD_ID: ${{ github.run_id }}
+          CI_BUILD_NUMBER: ${{ github.run_number }}
           CI_BUILD_URL: https://github.com/${{ github.repository }}/commit/${{ github.event.after }}/checks
           CI_BRANCH: ${{ steps.refs.outputs.branch_name }}
           CI_PULL_REQUEST: ${{ steps.refs.outputs.pr_number }}

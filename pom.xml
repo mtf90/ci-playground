@@ -47,6 +47,12 @@
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.3.0</version>
                     <configuration>
+                        <branch>${env.CI_BRANCH}</branch>
+                        <pullRequest>${env.CI_PULL_REQUEST}</pullRequest>
+                        <serviceName>${env.CI_NAME}</serviceName>
+                        <serviceBuildNumber>${env.CI_BUILD_NUMBER}</serviceBuildNumber>
+                        <serviceBuildUrl>${env.CI_BUILD_URL}</serviceBuildUrl>
+                        <serviceJobId>${env.CI_BUILD_NUMBER}</serviceJobId>
                         <jacocoReports>
                             <jacocoReport>${basedir}/target/site/jacoco/jacoco.xml</jacocoReport>
                         </jacocoReports>
