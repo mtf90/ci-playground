@@ -52,7 +52,7 @@
                         <serviceName>${env.CI_NAME}</serviceName>
                         <serviceBuildNumber>${env.CI_BUILD_NUMBER}</serviceBuildNumber>
                         <serviceBuildUrl>${env.CI_BUILD_URL}</serviceBuildUrl>
-                        <serviceJobId>${env.CI_BUILD_NUMBER}</serviceJobId>
+                        <serviceJobId>${env.CI_BUILD_ID}</serviceJobId>
                         <jacocoReports>
                             <jacocoReport>${basedir}/target/site/jacoco/jacoco.xml</jacocoReport>
                         </jacocoReports>
